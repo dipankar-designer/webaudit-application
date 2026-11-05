@@ -1,0 +1,49 @@
+{
+  "name": "@wpcg/server",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch --clear-screen=false src/index.ts",
+    "worker:dev": "tsx watch --clear-screen=false src/worker.ts",
+    "build": "node build.mjs",
+    "start": "node dist/index.js",
+    "worker": "node dist/worker.js",
+    "migrate": "tsx src/db/migrate.ts",
+    "plan:set": "tsx src/scripts/setPlan.ts",
+    "retention": "tsx src/scripts/retention.ts",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "test:live": "vitest run --config vitest.live.config.ts"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^1.3.0",
+    "@wpcg/shared": "*",
+    "axe-core": "^4.11.1",
+    "cheerio": "^1.2.0",
+    "dotenv": "^17.4.2",
+    "express": "^5.1.0",
+    "express-rate-limit": "^8.1.0",
+    "helmet": "^8.1.0",
+    "lighthouse": "^13.4.1",
+    "nodemailer": "^10.2.1",
+    "pg": "^8.16.3",
+    "pixelmatch": "^7.1.0",
+    "playwright-core": "1.63.0",
+    "pngjs": "^7.0.0",
+    "stripe": "^23.0.1",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.3",
+    "@types/nodemailer": "^8.0.2",
+    "@types/pg": "^8.15.5",
+    "@types/pngjs": "^6.0.5",
+    "@types/smtp-server": "^3.5.13",
+    "@types/supertest": "^6.0.3",
+    "esbuild": "^0.25.10",
+    "smtp-server": "^3.21.1",
+    "supertest": "^7.1.4",
+    "tsx": "^4.23.15"
+  }
+}

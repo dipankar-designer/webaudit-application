@@ -1,0 +1,37 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Cache and temporary files
+.cache/
+.tmp/
+temp/
+coverage/
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+.vscode/
+
+# Generated runtime data
+# Uncomment only if these contain generated/private data
+# storage/
+# uploads/
+# screenshots/
+
+# Local database files
+*.sqlite
+*.sqlite3

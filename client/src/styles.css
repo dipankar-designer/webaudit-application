@@ -1,0 +1,205 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/inter';
+
+/*
+ * Dark theme in Irish Media Agency colours (green #3ddc63, blue #5b93ff, orange #ff7f0e on near-black).
+ * The palette scales are inverted for a dark UI: low steps (50–300) are dark tinted fills and borders,
+ * high steps (700–950) are light text tints, and the mid steps (400–600) stay saturated for dots,
+ * bars and filled buttons. `bg-surface` is the card colour; `bg-ink` is the deepest panel colour.
+ * Every text/background pair used by the app is checked against WCAG 2.2 AA (see scripts/contrast.mjs).
+ */
+@theme {
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: ui-monospace, 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
+
+  --color-surface: #131726;
+  --color-raised: #191e30;
+  --color-ink: #05060a;
+  --color-on-brand: #04170a;
+
+  --color-slate-50: #0b0d15;
+  --color-slate-100: #1a1f31;
+  --color-slate-200: #262c42;
+  --color-slate-300: #363d57;
+  --color-slate-400: #737c94;
+  --color-slate-500: #9aa4b6;
+  --color-slate-600: #adb6c6;
+  --color-slate-700: #c9d0dd;
+  --color-slate-800: #dde2ea;
+  --color-slate-900: #eef1f6;
+  --color-slate-950: #f8f9fb;
+
+  --color-brand-50: #0c2214;
+  --color-brand-100: #113019;
+  --color-brand-200: #1a4a27;
+  --color-brand-300: #236836;
+  --color-brand-400: #6fe68d;
+  --color-brand-500: #3ddc63;
+  --color-brand-600: #3ddc63;
+  --color-brand-700: #6fe68d;
+  --color-brand-800: #9cefb0;
+  --color-brand-900: #c8f7d4;
+
+  --color-red-50: #2a1116;
+  --color-red-100: #3b151c;
+  --color-red-200: #5c1f29;
+  --color-red-300: #87303c;
+  --color-red-400: #f87171;
+  --color-red-500: #ef4444;
+  --color-red-600: #dc2626;
+  --color-red-700: #ff8f8f;
+  --color-red-800: #ffb3b3;
+  --color-red-900: #ffd1d1;
+  --color-red-950: #ffe6e6;
+
+  --color-orange-50: #2a1808;
+  --color-orange-100: #3a210b;
+  --color-orange-200: #5e3612;
+  --color-orange-300: #8a4f19;
+  --color-orange-400: #ff9a45;
+  --color-orange-500: #ff7f0e;
+  --color-orange-600: #c2410c;
+  --color-orange-700: #ffad66;
+  --color-orange-800: #ffc490;
+  --color-orange-900: #ffdcbc;
+
+  --color-amber-50: #2a2108;
+  --color-amber-100: #3a2d0b;
+  --color-amber-200: #5b4612;
+  --color-amber-300: #86661a;
+  --color-amber-400: #fbbf24;
+  --color-amber-500: #f59e0b;
+  --color-amber-600: #e8a317;
+  --color-amber-700: #fcd34d;
+  --color-amber-800: #fde68a;
+  --color-amber-900: #fef0b8;
+  --color-amber-950: #fff8dc;
+
+  --color-emerald-50: #0c2418;
+  --color-emerald-100: #10301f;
+  --color-emerald-200: #1a4a31;
+  --color-emerald-300: #236845;
+  --color-emerald-400: #4ade80;
+  --color-emerald-500: #22c55e;
+  --color-emerald-600: #3ddc63;
+  --color-emerald-700: #6ee7a0;
+  --color-emerald-800: #9cf0be;
+  --color-emerald-900: #c6f7da;
+
+  --color-sky-50: #0d1a33;
+  --color-sky-100: #112347;
+  --color-sky-200: #1a3466;
+  --color-sky-300: #24498f;
+  --color-sky-400: #7aa8ff;
+  --color-sky-500: #5b93ff;
+  --color-sky-600: #7aa8ff;
+  --color-sky-700: #8fb6ff;
+  --color-sky-800: #b3cdff;
+  --color-sky-900: #d4e3ff;
+
+  --color-indigo-50: #0d1a33;
+  --color-indigo-100: #112347;
+  --color-indigo-500: #5b93ff;
+  --color-indigo-700: #8fb6ff;
+
+  --color-violet-50: #1e1433;
+  --color-violet-100: #281a46;
+  --color-violet-200: #3b2766;
+  --color-violet-300: #54378f;
+  --color-violet-500: #8b5cf6;
+  --color-violet-700: #c4b1ff;
+  --color-violet-800: #d6c9ff;
+  --color-violet-950: #f3efff;
+
+  --color-rose-50: #2a1120;
+  --color-rose-100: #3b162b;
+  --color-rose-200: #5c2140;
+  --color-rose-600: #e11d48;
+  --color-rose-800: #ffb3c9;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    color-scheme: dark;
+  }
+  body {
+    @apply bg-slate-50 text-slate-800 antialiased;
+    font-feature-settings: 'cv11', 'ss01';
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-brand-600);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+  ::selection {
+    background: var(--color-brand-300);
+    color: #fff;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  .card {
+    @apply rounded-xl border border-slate-200 bg-surface shadow-[0_1px_2px_rgba(0,0,0,0.3)];
+  }
+  /* Input borders use slate-400 so the field boundary meets the 3:1 non-text contrast rule. */
+  .input {
+    @apply block w-full rounded-lg border border-slate-400 bg-slate-50 px-3 py-2 text-sm text-slate-900 shadow-sm placeholder:text-slate-500 focus:border-brand-600 focus:ring-2 focus:ring-brand-600/30 focus:outline-none disabled:bg-slate-100 disabled:text-slate-500;
+  }
+  .label {
+    @apply mb-1.5 block text-sm font-medium text-slate-800;
+  }
+  .help {
+    @apply mt-1.5 text-xs text-slate-500;
+  }
+  .code-block {
+    @apply overflow-x-auto rounded-lg border border-slate-200 bg-ink p-3 font-mono text-xs leading-relaxed whitespace-pre-wrap break-words text-slate-800;
+  }
+  .table-base {
+    @apply w-full text-left text-sm;
+  }
+  .table-base th {
+    @apply border-b border-slate-200 bg-slate-50 px-4 py-2.5 text-xs font-semibold tracking-wide text-slate-600 uppercase;
+  }
+  .table-base td {
+    @apply border-b border-slate-100 px-4 py-3 align-top;
+  }
+}
+
+/* Printed reports stay black on white whatever the screen theme. */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  html {
+    color-scheme: light;
+  }
+  body {
+    background: #fff;
+    color: #0f172a;
+  }
+  .card {
+    box-shadow: none;
+    background: #fff;
+    border-color: #cbd5e1;
+    break-inside: avoid-page;
+  }
+  .print-break {
+    break-before: page;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}

@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.data/
+storage/
+*.log
+.env
+.env.local
+server/test-results/
+client/test-results/

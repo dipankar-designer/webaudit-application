@@ -1,0 +1,42 @@
+{
+  "name": "wp-changeguard-app",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "WebAudit AI — website audit, quality assurance and change detection SaaS.",
+  "workspaces": [
+    "shared",
+    "server",
+    "client"
+  ],
+  "scripts": {
+    "db:start": "node scripts/dev-db.mjs",
+    "db:migrate": "npm run migrate -w @wpcg/server",
+    "dev": "concurrently -k -n db,api,worker,web,mail -c gray,blue,magenta,green,yellow \"node scripts/dev-db.mjs\" \"npm run dev -w @wpcg/server\" \"npm run worker:dev -w @wpcg/server\" \"npm run dev -w @wpcg/client\" \"node scripts/dev-mail.mjs\"",
+    "dev:api": "npm run dev -w @wpcg/server",
+    "dev:worker": "npm run worker:dev -w @wpcg/server",
+    "dev:web": "npm run dev -w @wpcg/client",
+    "build": "npm run build -w @wpcg/server && npm run build -w @wpcg/client",
+    "start": "npm run start -w @wpcg/server",
+    "worker": "npm run worker -w @wpcg/server",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "mail:dev": "node scripts/dev-mail.mjs"
+  },
+  "engines": {
+    "node": ">=20.19"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.4",
+    "concurrently": "^10.0.5",
+    "embedded-postgres": "17.10.0-beta.17",
+    "mailparser": "^3.12.4",
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.7"
+  },
+  "allowScripts": {
+    "@embedded-postgres/windows-x64@17.10.0-beta.17": true,
+    "esbuild@0.28.2": true,
+    "esbuild@0.25.12": true
+  }
+}

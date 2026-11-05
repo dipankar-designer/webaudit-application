@@ -1,0 +1,65 @@
+# Reference deployment: PostgreSQL + API + scan worker.
+#   cp .env.example .env   (set NODE_ENV=production, APP_ORIGIN, a strong POSTGRES_PASSWORD)
+#   docker compose up -d --build
+# Put a TLS-terminating reverse proxy in front of the api service and set TRUST_PROXY=true.
+
+services:
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: wpcg
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}
+      POSTGRES_DB: wpcg
+      POSTGRES_INITDB_ARGS: --encoding=UTF8 --locale=C
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks: [internal]
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U wpcg']
+      interval: 5s
+      retries: 10
+
+  api:
+    build: .
+    env_file: .env
+    environment:
+      NODE_ENV: production
+      # Inside the container; .env's HOST=127.0.0.1 would make the published port unreachable.
+      HOST: 0.0.0.0
+      DATABASE_URL: postgres://wpcg:${POSTGRES_PASSWORD}@db:5432/wpcg
+      RUN_WORKER_IN_PROCESS: 'false'
+      STORAGE_DIR: /data/storage
+    volumes:
+      - storage:/data/storage
+    ports:
+      - '127.0.0.1:4100:4100'
+    depends_on:
+      db: { condition: service_healthy }
+    networks: [internal, public]
+
+  worker:
+    build: .
+    command: ['node', 'server/dist/worker.js']
+    env_file: .env
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgres://wpcg:${POSTGRES_PASSWORD}@db:5432/wpcg
+      STORAGE_DIR: /data/storage
+    volumes:
+      - storage:/data/storage
+    depends_on:
+      db: { condition: service_healthy }
+    # The worker needs outbound internet for scanning. SSRF rules are enforced in the app, but
+    # also restrict this container's egress at the network/firewall level (no access to the
+    # cloud metadata service, internal subnets or the database host other than port 5432).
+    networks: [internal, public]
+    shm_size: 1gb
+
+networks:
+  internal:
+    internal: true
+  public: {}
+
+volumes:
+  pgdata: {}
+  storage: {}
